@@ -23,12 +23,12 @@ describe('1 - Teste a função fetchProducts', () => {
   it('se o retorno é uma estrutura de dados igual ao objeto computadorSearch', async () => {
     expect.assertions(1);
     const result = await fetchProducts('computador');
-    expect(result).toBe(computadorSearch);
+    expect(result).toEqual(computadorSearch);
   });
 
   it('se o retorno da função sem argumento é um erro com a mensagem: \'You must provide an url\'', async () => {
     expect.assertions(1);
-    expect(await fetchProducts(' ')).toBe(new Error('You must provide an url'));
+    expect(await fetchProducts(' ')).toStrictEqual(new Error('You must provide an url'));
   });
 });
 
