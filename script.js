@@ -41,11 +41,12 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   const items = document.querySelector('.items');
   const section = document.createElement('section');
   section.className = 'item';
-
+  
   section.appendChild(createCustomElement('span', 'item_id', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+
   items.appendChild(section);
   return section;
 };
@@ -55,7 +56,9 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-// const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+// const getIdFromProductItem = (product) => product.querySelector('.span.id').innerText;
+
+const cartItemClickListener = () => {};
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -65,19 +68,44 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-// const createCartItemElement = ({ id, title, price }) => {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// };
+ const createCartItemElement = ({ id, title, price }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+};
+
+/* adicionar itens ao carrinho */ 
+const addCartItem = (li) => {
+  const carrinho = document.querySelector('.cart__items');
+  carrinho.appendChild(li);
+};
+
+/* selecionar itens para o carrinho */
+const selecItens = async (pr) => {
+  const data = await fetchItem(pr);
+  const li = createCartItemElement(data);
+  addCartItem(li);
+};
+
+/* funçao responsavel por adicionar evento listener aos botoes */
+const criarBotoes = () => {
+  // await getTableProducts();
+  const listaBotoes = document.querySelectorAll('.item__add');
+  listaBotoes.forEach((botao) => botao.addEventListener('click', (aux) => {
+    const secao = (aux.target).parentNode;
+    const produto = secao.querySelector('.item_id').innerText;
+    selecItens(produto);  
+  }));
+};
 
 const getTableProducts = async () => {
   const { results } = await fetchProducts();
   results.forEach((e) => {
     createProductItemElement({ id: e.id, title: e.title, thumbnail: e.thumbnail });
   });
+  criarBotoes();
 };
 
 window.onload = () => { 
