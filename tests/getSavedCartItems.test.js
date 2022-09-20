@@ -15,10 +15,10 @@ describe('4 - Teste a função getSavedCartItems', () => {
     expect(localStorage.getItem).toHaveBeenCalled();
   });
   
-  it('se a função o método localStorage.setItem é chamado com dois parâmetros, sendo o primeiro a chave `cartItems` e o segundo sendo o valor passado como argumento para saveCartItems', () => {    
+  it('se a função o método localStorage.setItem é chamado com um parâmetros `cartItems`', () => {    
     // expect.assertions(1);
-    getSavedCartItems('cartItems, item');
-    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems, item');
+    getSavedCartItems('cartItems');
+    expect(localStorage.getItem).toHaveBeenCalledWith('cartItems');
   });
 });
   // fail('Teste vazio');
