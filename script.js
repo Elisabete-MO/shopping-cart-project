@@ -76,10 +76,19 @@ const cartItemClickListener = () => {};
   return li;
 };
 
+/* remover itens ao carrinho */ 
+const excCartItem = (li) => {
+  const carrinho = document.querySelector('.cart__items');
+  carrinho.removeChild(li);
+};
+
 /* adicionar itens ao carrinho */ 
 const addCartItem = (li) => {
   const carrinho = document.querySelector('.cart__items');
   carrinho.appendChild(li);
+  li.addEventListener('click', () => {
+    excCartItem(li);
+  });
 };
 
 /* selecionar itens para o carrinho */
@@ -91,7 +100,6 @@ const selecItens = async (pr) => {
 
 /* funçao responsavel por adicionar evento listener aos botoes */
 const criarBotoes = () => {
-  // await getTableProducts();
   const listaBotoes = document.querySelectorAll('.item__add');
   listaBotoes.forEach((botao) => botao.addEventListener('click', (aux) => {
     const secao = (aux.target).parentNode;
