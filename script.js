@@ -38,7 +38,7 @@ const createCustomElement = (element, className, innerText) => {
  * @returns {Element} Elemento de produto.
  */
 const createProductItemElement = ({ id, title, thumbnail }) => {
-  const items = document.querySelector('.items');
+  const items = document.querySelector('.itens');
   const section = document.createElement('section');
   section.className = 'item';
   
@@ -68,10 +68,11 @@ const cartItemClickListener = () => {};
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
- const createCartItemElement = ({ id, title, price }) => {
+ const createCartItemElement = ({ title, price }) => {
   const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.className = 'cart-item';
+  li.innerText = `${title}
+  $ ${parseFloat(price).toFixed(2)}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
@@ -82,6 +83,7 @@ const btnEsvaziar = document.querySelector('.empty-cart');
 /* remover itens ao carrinho */ 
 const excCartItem = (li) => {
   carrinho.removeChild(li);
+  localStorage.removeItem('cartItems', `${li}`);
 };
 
 /* adicionar itens ao carrinho */ 
@@ -112,7 +114,7 @@ const criarBotoes = () => {
   listaBotoes.forEach((botao) => botao.addEventListener('click', (aux) => {
     const secao = (aux.target).parentNode;
     const produto = secao.querySelector('.item_id').innerText;
-    selecItens(produto);  
+    selecItens(produto);
   }));
 };
 
@@ -130,6 +132,7 @@ const esvaziarCarrinho = () => {
   lista.forEach((li) => {
     excCartItem(li);
   });
+  localStorage.clear();
 };
 
 window.onload = () => { 
@@ -142,7 +145,7 @@ window.onload = () => {
       li.addEventListener('click', () => {
         excCartItem(li);
       });
-      li.className = 'cart__item';
+      li.className = 'cart-item';
       li.innerHTML = cart;
       carrinho.appendChild(li);
     });
